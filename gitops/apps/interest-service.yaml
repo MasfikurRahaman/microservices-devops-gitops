@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: interest_cal
+  name: interest-cal
   namespace: argocd
 spec:
   project: default
