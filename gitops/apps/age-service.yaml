@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gae_cal
+  name: gae-cal
   namespace: argocd
 spec:
   project: default
