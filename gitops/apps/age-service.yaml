@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/MasfikurRahaman/microservices-devops-gitops.git
     targetRevision: main
-    path: age-service
+    path: gitops/age-service
   destination:
     server: https://kubernetes.default.svc
     namespace: default
