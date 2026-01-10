@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: microsvc-app
+  name: frontend
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/MasfikurRahaman/microservices-devops-gitops.git
     targetRevision: main
-    path: .
+    path: calc-service
   destination:
     server: https://kubernetes.default.svc
     namespace: default
