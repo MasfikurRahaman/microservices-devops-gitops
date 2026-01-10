@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/MasfikurRahaman/microservices-devops-gitops.git
     targetRevision: main
-    path: frontend
+    path: gitops/frontend
   destination:
     server: https://kubernetes.default.svc
     namespace: default
