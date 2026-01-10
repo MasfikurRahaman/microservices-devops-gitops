@@ -1,0 +1,4 @@
+To active python in ubuntu use bellow command :
+
+python3 -m venv venv
+source venv/bin/activate

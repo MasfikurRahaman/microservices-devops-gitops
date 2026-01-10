@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: age-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: age-service
+  template:
+    metadata:
+      labels:
+        app: age-service
+    spec:
+      containers:
+      - name: age-service
+        image: masum140/microsvc:age-v1
+        ports:
+        - containerPort: 5000
+

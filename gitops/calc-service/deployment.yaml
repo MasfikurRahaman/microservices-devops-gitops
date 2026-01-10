@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calc-service
+  template:
+    metadata:
+      labels:
+        app: calc-service
+    spec:
+      containers:
+      - name: calc-service
+        image: masum140/microsvc:calc-v1
+        ports:
+        - containerPort: 5000
+

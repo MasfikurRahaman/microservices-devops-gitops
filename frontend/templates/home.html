@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6fc;
+            text-align: center;
+            padding-top: 60px;
+        }
+        .card {
+            background: white;
+            width: 320px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .logout {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Welcome {{ user }}</h1>
+
+<div class="card">
+    <h3>Age Calculator</h3>
+    <button>Open</button>
+</div>
+
+<div class="card">
+    <h3>Simple Calculator</h3>
+    <button>Open</button>
+</div>
+
+<div class="card">
+    <h3>Interest Calculator</h3>
+    <button>Open</button>
+</div>
+
+<div class="logout">
+    <a href="/logout">Logout</a>
+</div>
+
+</body>
+</html>
+

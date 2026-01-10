@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: interest-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: interest-service
+  template:
+    metadata:
+      labels:
+        app: interest-service
+    spec:
+      containers:
+      - name: interest-service
+        image: masum140/microsvc:interest-v1
+        ports:
+        - containerPort: 5000
+
