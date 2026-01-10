@@ -2,11 +2,12 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route("/health")
+@app.route("/health", methods=["GET"])
 def health():
-    return {"status": "ok"}, 200
+    return jsonify({"status": "ok"}), 200
 
-@app.route("/api/interest", methods=["POST"])
+
+@app.route("/calculate", methods=["POST"])
 def calculate_interest():
     data = request.get_json()
 
@@ -24,11 +25,11 @@ def calculate_interest():
         return jsonify({
             "interest": round(interest, 2),
             "total_amount": round(total, 2)
-        })
+        }), 200
 
     except Exception:
         return jsonify({"error": "Invalid input"}), 400
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
