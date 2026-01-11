@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: interest-service
-        image: masum140/microsvc:interest-v1
+        image: masum140/microsvc:interest-v2
         ports:
         - containerPort: 5000
 
