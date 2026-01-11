@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: masum140/microsvc:frontend-v9
+        image: masum140/microsvc:frontend-v12
         ports:
         - containerPort: 5000
 
