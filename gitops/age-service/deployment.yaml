@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: age-service
-        image: masum140/microsvc:age-v1
+        image: masum140/microsvc:age-v2
         ports:
         - containerPort: 5000
 
