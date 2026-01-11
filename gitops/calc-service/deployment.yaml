@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: calc-service
-        image: masum140/microsvc:calc-v1
+        image: masum140/microsvc:calc-v2
         ports:
         - containerPort: 5000
 
