@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Age Calculator</title>
+</head>
+<body>
+<h2>Age Calculator</h2>
+
+<form method="post">
+    Day: <input type="number" name="day" required><br><br>
+    Month: <input type="number" name="month" required><br><br>
+    Year: <input type="number" name="year" required><br><br>
+    <button type="submit">Calculate Age</button>
+</form>
+
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+
+<br>
+<a href="/home">⬅ Back to Home</a>
+</body>
+</html>
+
