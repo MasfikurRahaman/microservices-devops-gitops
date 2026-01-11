@@ -4,7 +4,9 @@ import requests
 app = Flask(__name__)
 app.secret_key = "microservices-devops-secret"
 
+# Demo users
 USERS = ["admin1", "admin2", "admin3"]
+
 
 # ---------------- LOGIN ----------------
 @app.route("/", methods=["GET", "POST"])
@@ -17,7 +19,7 @@ def login():
             session["user"] = username
             return redirect(url_for("home"))
         else:
-            return render_template("login.html", error="Invalid credentials")
+            return render_template("login.html", error="Invalid username or password")
 
     return render_template("login.html")
 
@@ -29,37 +31,41 @@ def home():
     return render_template("home.html", user=session["user"])
 
 
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
+
+
 # ---------------- AGE CALCULATOR ----------------
 @app.route("/age", methods=["GET", "POST"])
 def age():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    result = None
-    error = None
-
     if request.method == "POST":
         try:
+            payload = {
+                "day": request.form.get("day"),
+                "month": request.form.get("month"),
+                "year": request.form.get("year")
+            }
+
             response = requests.post(
-                "http://age-service:5000/calculate",
-                json={
-                    "day": request.form.get("day"),
-                    "month": request.form.get("month"),
-                    "year": request.form.get("year")
-                },
+                "http://age-service:5000/age",
+                json=payload,
                 timeout=3
             )
 
             if response.status_code == 200:
-                data = response.json()
-                result = f"{data['years']} years, {data['months']} months, {data['days']} days"
+                return render_template("age_result.html", result=response.json())
             else:
-                error = "Age service returned an error"
+                return render_template("age.html", error="Age service error")
 
-        except requests.exceptions.RequestException:
-            error = "Age service is unavailable"
+        except Exception:
+            return render_template("age.html", error="Age service unavailable")
 
-    return render_template("age.html", result=result, error=error)
+    return render_template("age.html")
 
 
 # ---------------- SIMPLE CALCULATOR ----------------
@@ -68,30 +74,32 @@ def calculator():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    result = None
-    error = None
-
     if request.method == "POST":
         try:
+            payload = {
+                "a": request.form.get("a"),
+                "b": request.form.get("b"),
+                "operation": request.form.get("operation")
+            }
+
             response = requests.post(
-                "http://calc-service:5000/calculate",
-                json={
-                    "a": request.form.get("a"),
-                    "b": request.form.get("b"),
-                    "operation": request.form.get("operation")
-                },
+                "http://calc-service:5000/api/calc",
+                json=payload,
                 timeout=3
             )
 
             if response.status_code == 200:
-                result = response.json().get("result")
+                return render_template(
+                    "calc_result.html",
+                    result=response.json().get("result")
+                )
             else:
-                error = "Calculator service returned an error"
+                return render_template("calc.html", error="Calculation failed")
 
-        except requests.exceptions.RequestException:
-            error = "Calculator service is unavailable"
+        except Exception:
+            return render_template("calc.html", error="Calculator service unavailable")
 
-    return render_template("calculator.html", result=result, error=error)
+    return render_template("calc.html")
 
 
 # ---------------- INTEREST CALCULATOR ----------------
@@ -100,39 +108,34 @@ def interest():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    result = None
-    error = None
-
     if request.method == "POST":
         try:
+            payload = {
+                "principal": request.form.get("principal"),
+                "rate": request.form.get("rate"),
+                "time": request.form.get("time")
+            }
+
             response = requests.post(
-                "http://interest-service:5000/calculate",
-                json={
-                    "principal": request.form.get("principal"),
-                    "rate": request.form.get("rate"),
-                    "time": request.form.get("time")
-                },
+                "http://interest-service:5000/api/interest",
+                json=payload,
                 timeout=3
             )
 
             if response.status_code == 200:
-                data = response.json()
-                result = f"Interest: {data['interest']} | Total: {data['total_amount']}"
+                return render_template(
+                    "interest_result.html",
+                    result=response.json()
+                )
             else:
-                error = "Interest service returned an error"
+                return render_template("interest.html", error="Interest calculation failed")
 
-        except requests.exceptions.RequestException:
-            error = "Interest service is unavailable"
+        except Exception:
+            return render_template("interest.html", error="Interest service unavailable")
 
-    return render_template("interest.html", result=result, error=error)
-
-
-# ---------------- LOGOUT ----------------
-@app.route("/logout")
-def logout():
-    session.pop("user", None)
-    return redirect(url_for("login"))
+    return render_template("interest.html")
 
 
+# ---------------- MAIN ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
