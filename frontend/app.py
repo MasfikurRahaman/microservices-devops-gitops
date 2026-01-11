@@ -36,14 +36,30 @@ def age():
         return redirect(url_for("login"))
 
     result = None
-    if request.method == "POST":
-        response = requests.post(
-            "http://age-service:5000/calculate",
-            json=request.form
-        )
-        result = response.json().get("age")
+    error = None
 
-    return render_template("age.html", result=result)
+    if request.method == "POST":
+        try:
+            response = requests.post(
+                "http://age-service:5000/calculate",
+                json={
+                    "day": request.form.get("day"),
+                    "month": request.form.get("month"),
+                    "year": request.form.get("year")
+                },
+                timeout=3
+            )
+
+            if response.status_code == 200:
+                data = response.json()
+                result = f"{data['years']} years, {data['months']} months, {data['days']} days"
+            else:
+                error = "Age service returned an error"
+
+        except requests.exceptions.RequestException:
+            error = "Age service is unavailable"
+
+    return render_template("age.html", result=result, error=error)
 
 
 # ---------------- SIMPLE CALCULATOR ----------------
@@ -53,14 +69,29 @@ def calculator():
         return redirect(url_for("login"))
 
     result = None
-    if request.method == "POST":
-        response = requests.post(
-            "http://calc-service:5000/calculate",
-            json=request.form
-        )
-        result = response.json().get("result")
+    error = None
 
-    return render_template("calculator.html", result=result)
+    if request.method == "POST":
+        try:
+            response = requests.post(
+                "http://calc-service:5000/calculate",
+                json={
+                    "a": request.form.get("a"),
+                    "b": request.form.get("b"),
+                    "operation": request.form.get("operation")
+                },
+                timeout=3
+            )
+
+            if response.status_code == 200:
+                result = response.json().get("result")
+            else:
+                error = "Calculator service returned an error"
+
+        except requests.exceptions.RequestException:
+            error = "Calculator service is unavailable"
+
+    return render_template("calculator.html", result=result, error=error)
 
 
 # ---------------- INTEREST CALCULATOR ----------------
@@ -70,16 +101,33 @@ def interest():
         return redirect(url_for("login"))
 
     result = None
+    error = None
+
     if request.method == "POST":
-        response = requests.post(
-            "http://interest-service:5000/calculate",
-            json=request.form
-        )
-        result = response.json().get("interest")
+        try:
+            response = requests.post(
+                "http://interest-service:5000/calculate",
+                json={
+                    "principal": request.form.get("principal"),
+                    "rate": request.form.get("rate"),
+                    "time": request.form.get("time")
+                },
+                timeout=3
+            )
 
-    return render_template("interest.html", result=result)
+            if response.status_code == 200:
+                data = response.json()
+                result = f"Interest: {data['interest']} | Total: {data['total_amount']}"
+            else:
+                error = "Interest service returned an error"
+
+        except requests.exceptions.RequestException:
+            error = "Interest service is unavailable"
+
+    return render_template("interest.html", result=result, error=error)
 
 
+# ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():
     session.pop("user", None)
