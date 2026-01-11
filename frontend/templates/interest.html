@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interest Calculator</title>
+</head>
+<body>
+<h2>Interest Calculator</h2>
+
+<form method="post">
+    Principal: <input type="number" step="any" name="principal" required><br><br>
+    Rate (%): <input type="number" step="any" name="rate" required><br><br>
+    Time (years): <input type="number" step="any" name="time" required><br><br>
+
+    <button type="submit">Calculate Interest</button>
+</form>
+
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+
+<br>
+<a href="/home">⬅ Back to Home</a>
+</body>
+</html>
+
