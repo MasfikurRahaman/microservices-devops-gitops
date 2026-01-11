@@ -3,7 +3,7 @@ from datetime import date
 
 app = Flask(__name__)
 
-@app.route("/age", methods=["POST"])
+@app.route("/calculate", methods=["POST"])
 def calculate_age():
     data = request.get_json()
 
@@ -38,4 +38,3 @@ def health():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
